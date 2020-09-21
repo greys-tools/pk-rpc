@@ -8,8 +8,8 @@ This program will get your currently fronting system member and show it in your 
 2. Download this repo
 3. Install dependencies with `npm install` in the root folder, using your preferred terminal
 4. Open the right `run.*` for your OS, or use `node index` to run the program
-  - Windows: `run.bat`
-  - Mac/Linux: use `chmod 755 run.sh`, then open `run.sh`
+	- Windows: `run.bat`
+	- Mac/Linux: use `chmod 755 run.sh`, then open `run.sh`
 
 ## Caveats
 *This app won't work if your fronters are privated.* In order for the app to see your fronters, it'd need your app token. If you'd like to make modifications in order for the program to accept a token, feel free- however, this app focuses on using already public information, given that you'll be using this to broadcast who's fronting in your Discord status.
