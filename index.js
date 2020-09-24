@@ -19,14 +19,14 @@ async function setFront() {
 		var front = (await axios(`/s/${system.id}/fronters`)).data;
 
 		client.setActivity({
-			details: front.members.map(m => m.name).join(", "),
-			state: system.name,
+			details: front.members.map(m => m.name).join(", ") || "(none)",
+			state: system.name || "---",
 			startTimestamp: new Date(front.timestamp),
 			//uncomment below if you want images & are using your own client
-			// largeImageKey: front.members[0].name.toLowerCase(),
-			// largeImageText: front.members[0].name,
-			// smallImageKey: 'system',
-			// smallImageText: system.name.toLowerCase().split(" ").join("_"),
+			// largeImageKey: front.members[0]?.name.toLowerCase() || "none",
+			// largeImageText: front.members[0]?.name || "none",
+			// smallImageKey: system.name || "system",
+			// smallImageText: system.name?.toLowerCase().split(" ").join("_") || "system",
 			instance: false
 		})
 	} catch(e) {
@@ -49,4 +49,4 @@ client.on('ready', ()=> {
 	setInterval(()=> setFront(), 15000);
 })
 
-client.login({clientId}).catch(console.error).then(()=> "RPC running!");
+client.login({clientId}).catch(console.error).then(()=> console.log("RPC running!"));
