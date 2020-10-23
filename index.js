@@ -23,10 +23,10 @@ async function setFront() {
 			state: system.name || "---",
 			startTimestamp: new Date(front.timestamp),
 			//uncomment below if you want images & are using your own client
-			// largeImageKey: front.members[0]?.name.toLowerCase() || "none",
+			// largeImageKey: front.members[0]?.id || "none",
 			// largeImageText: front.members[0]?.name || "none",
-			// smallImageKey: system.name || "system",
-			// smallImageText: system.name?.toLowerCase().split(" ").join("_") || "system",
+			// smallImageKey: system.id || "system",
+			// smallImageText: system.name || "system",
 			instance: false
 		})
 	} catch(e) {
