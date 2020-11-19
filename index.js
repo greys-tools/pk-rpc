@@ -18,8 +18,15 @@ async function setFront() {
 
 		var front = (await axios(`/s/${system.id}/fronters`)).data;
 
+        members = front.members.map(m => m.display_name || m.name).join(", ");
+		if (members.length > 127) {
+			members = front.members.map(m => m.name).join(", ");
+			if (members.length > 127) {
+				members = members.slice(0, 120) + "...";
+			}
+		}
 		client.setActivity({
-			details: front.members.map(m => m.display_name || m.name).join(", ") || "(none)",
+			details: members || "(none)",
 			state: system.name || "---",
 			startTimestamp: new Date(front.timestamp),
 			//uncomment below if you want images & are using your own client
