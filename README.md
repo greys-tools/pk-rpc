@@ -4,12 +4,21 @@ A rich presence client for RPC users.
 This program will get your currently fronting system member and show it in your Discord status. Make sure you run the program on the same machine as your Discord client in order for it to work.
 
 ## How to use
-1. Make sure you have nodejs installed on your machine
-2. Download this repo
-3. Install dependencies with `npm install` in the root folder, using your preferred terminal
-4. Open the right `run.*` for your OS, or use `node index` to run the program
+### Automatic way
+*This involves letting the included .bat and .sh files work their magic.*
+1. Download this repo and extract it somewhere
+2. Run whatever file suits your system
 	- Windows: `run.bat`
-	- Mac/Linux: use `chmod 755 run.sh`, then open `run.sh`
+	- Mac: `run-mac.sh`
+	- Linux: `run-linux.sh`
+3. That's it :)
+
+### Manual way
+*This means doing everything by hand. Make sure you're comfortable with a terminal/command prompt*
+1. Install Nodejs from [this link](https://nodejs.org/en/download/)
+2. Download this repo and extract it somewhere handy
+3. Install dependencies with `npm install` in the root folder, using your preferred terminal
+4. Use `node index` to run the program
 
 ## Caveats
 *This app won't work if your fronters are privated.* In order for the app to see your fronters, it'd need your app token. If you'd like to make modifications in order for the program to accept a token, feel free- however, this app focuses on using already public information, given that you'll be using this to broadcast who's fronting in your Discord status.

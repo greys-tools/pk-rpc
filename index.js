@@ -29,7 +29,7 @@ async function setFront() {
 			details: members || "(none)",
 			state: system.name || "---",
 			startTimestamp: new Date(front.timestamp),
-			//uncomment below if you want images & are using your own client
+			// uncomment BELOW (remove slashes)
 			// largeImageKey: front.members[0]?.id || "none",
 			// largeImageText: front.members[0]?.display_name || front.members[0]?.name || "none",
 			// smallImageKey: system.id,
