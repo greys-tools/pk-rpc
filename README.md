@@ -20,11 +20,19 @@ This program will get your currently fronting system member and show it in your 
 3. Install dependencies with `npm install` in the root folder, using your preferred terminal
 4. Use `node index` to run the program
 
+## Adding avatars
+*This will allow your members' avatars to show up in the fronting list. Note that only the first fronter in the list will have their avatar shown*
+1. Go to the [Discord developers area](https://discord.com/developers/applications)
+2. Click the button at the top right that says to create a new application, following the prompt that comes up
+3. Once it's created, navigate to it and go to the "Rich Presence" tab, then "art assets"
+4. Start uploading icons. **Make sure they're named to match your members' IDs**
+5. Once you're done, go back to the "General Information" tab. Click the button to copy the application's ID (below the description box)
+6. Open up the `index.js` file you downloaded in a program like Notepad. Find the line that looks like [this](https://github.com/greysdawn/pk-rpc/blob/master/index.js#L4) and replace the numbers at the end with your new client ID
+7. Find [these](https://github.com/greysdawn/pk-rpc/blob/master/index.js#L33-L36) lines and remove the `//` on each line. Do NOT touch the one that says "uncomment BELOW"
+8. Save the file, restart the program, and you should be all set!
+
 ## Caveats
 *This app won't work if your fronters are privated.* In order for the app to see your fronters, it'd need your app token. If you'd like to make modifications in order for the program to accept a token, feel free- however, this app focuses on using already public information, given that you'll be using this to broadcast who's fronting in your Discord status.
-
-Also, due to RPC requiring pre-loaded assets in order to use icons, *you can't use your members' avatars with this program as-is*. If you'd like to be able to use icons for your sysmates, you'll have to make your own application [here](https://discord.com/developers/applications) and upload avatar assets in the rich presence area, making sure that icons match your headmates' and system IDs. After that, replace the `clientId` in `index.js` with your application's client ID and uncomment the code further down in that file.  
-All that said, you'll still only be able to use one image for the current fronters, so whoever is registered first will have their image used.
 
 Another caveat is that this program may not update immediately. It runs on a clock cycle that updates every few seconds, so if you switch and don't see immediate changes, please be patient.
 
