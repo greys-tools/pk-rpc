@@ -1,5 +1,5 @@
 # PluralKit RPC
-A rich presence client for RPC users.
+A rich presence client for PluralKit users.
 
 This program will get your currently fronting system member and show it in your Discord status. Make sure you run the program on the same machine as your Discord client in order for it to work.
 
@@ -21,15 +21,9 @@ This program will get your currently fronting system member and show it in your 
 4. Use `node index` to run the program
 
 ## Adding avatars
-*This will allow your members' avatars to show up in the fronting list. Note that only the first fronter in the list will have their avatar shown*
-1. Go to the [Discord developers area](https://discord.com/developers/applications)
-2. Click the button at the top right that says to create a new application, following the prompt that comes up
-3. Once it's created, navigate to it and go to the "Rich Presence" tab, then "art assets"
-4. Start uploading icons. **Make sure they're named to match your members' IDs**
-5. Once you're done, go back to the "General Information" tab. Click the button to copy the application's ID (below the description box)
-6. Open up the `index.js` file you downloaded in a program like Notepad. Find the line that looks like [this](https://github.com/greysdawn/pk-rpc/blob/master/index.js#L4) and replace the numbers at the end with your new client ID
-7. Find [these](https://github.com/greysdawn/pk-rpc/blob/master/index.js#L33-L36) lines and remove the `//` on each line. Do NOT touch the one that says "uncomment BELOW"
-8. Save the file, restart the program, and you should be all set!
+**Edits are no longer needed to make avatars work!** This program will instead use the avatars set up in PK. This *should* thankfully work out of the box!
+
+Note that if you have multiple fronters, *only the first one* will show up in terms of their avatar. For example, if you have a fronter list that looks like `Jake, John, Jerry`, then only Jake's avatar will show up (alongside your system avatar, if set up)
 
 ## Caveats
 *This app won't work if your fronters are privated.* In order for the app to see your fronters, it'd need your app token. If you'd like to make modifications in order for the program to accept a token, feel free- however, this app focuses on using already public information, given that you'll be using this to broadcast who's fronting in your Discord status.

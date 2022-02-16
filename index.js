@@ -1,22 +1,22 @@
 const DiscordRPC = require('discord-rpc');
-const axios = require('axios');
+const PKAPI = require('pkapi.js');
 
 const clientId = '757707416719851651';
 DiscordRPC.register(clientId);
 const client = new DiscordRPC.Client({transport: 'ipc'});
 
-axios.defaults.baseURL = 'https://api.pluralkit.me/v1';
+const API = new PKAPI();
 
 var system;
 
 async function setFront() {
 	try {
 		if(!system) {
-			var data = (await axios(`/a/${client.user.id}`)).data;
-			system = data;
+			system = await API.getSystem({system: client.user.id});
 		}
 
-		var front = (await axios(`/s/${system.id}/fronters`)).data;
+		var front = await system.getFronters();
+		front.members = Array.from(front.members, ([k, v]) => v);
 
         members = front.members.map(m => m.display_name || m.name).join(", ");
 		if (members.length > 127) {
@@ -25,17 +25,25 @@ async function setFront() {
 				members = members.slice(0, 120) + "...";
 			}
 		}
-		client.setActivity({
+
+		var activity = {
 			details: members || "(none)",
 			state: system.name || "---",
 			startTimestamp: new Date(front.timestamp),
-			// uncomment BELOW (remove slashes)
-			// largeImageKey: front.members[0]?.id || "none",
-			// largeImageText: front.members[0]?.display_name || front.members[0]?.name || "none",
-			// smallImageKey: system.id,
-			// smallImageText: system.name || "system",
 			instance: false
-		})
+		}
+
+		if(front.members[0]?.avatar_url) {
+			activity.largeImageKey = front.members[0].avatar_url.replace('cdn.discordapp.com', 'media.discordapp.net');
+			activity.largeImageText = front.members[0]?.display_name || front.members[0]?.name;
+		}
+
+		if(system.avatar_url) {
+			activity.smallImageKey = system.avatar_url.replace('cdn.discordapp.com', 'media.discordapp.net');
+			activity.smallImageText = system.name || "system";
+		}
+
+		client.setActivity(activity)
 	} catch(e) {
 		if(e.response) {
 			if(e.response.data == "Account not found.") {
