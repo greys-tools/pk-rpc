@@ -1,7 +1,9 @@
 const DiscordRPC = require('discord-rpc');
 const PKAPI = require('pkapi.js');
 
+// CHANGE THIS if setting up your own icons
 const clientId = '757707416719851651';
+
 DiscordRPC.register(clientId);
 const client = new DiscordRPC.Client({transport: 'ipc'});
 
@@ -18,7 +20,7 @@ async function setFront() {
 		var front = await system.getFronters();
 		front.members = Array.from(front.members, ([k, v]) => v);
 
-        members = front.members.map(m => m.display_name || m.name).join(", ");
+        var members = front.members.map(m => m.display_name || m.name).join(", ");
 		if (members.length > 127) {
 			members = front.members.map(m => m.name).join(", ");
 			if (members.length > 127) {
@@ -30,9 +32,18 @@ async function setFront() {
 			details: members || "(none)",
 			state: system.name || "---",
 			startTimestamp: new Date(front.timestamp),
-			instance: false
+			instance: false,
+
+			// uncomment BELOW if setting up your own avatars
+			/*
+			largeImageKey: front.members[0]?.id,
+			largeImageText: front.members[0]?.display_name || front.members[0]?.name,
+			smallImageKey: "system",
+			smallImageText: system.name ?? "system"
+			*/
 		}
 
+		// COMMENT OUT/REMOVE below if setting up your own avatars
 		if(front.members[0]?.avatar_url) {
 			activity.largeImageKey = front.members[0].avatar_url.replace('cdn.discordapp.com', 'media.discordapp.net');
 			activity.largeImageText = front.members[0]?.display_name || front.members[0]?.name;
@@ -42,6 +53,7 @@ async function setFront() {
 			activity.smallImageKey = system.avatar_url.replace('cdn.discordapp.com', 'media.discordapp.net');
 			activity.smallImageText = system.name || "system";
 		}
+		// COMMENT BLOCK ENDS HERE- don't get rid of anything else!
 
 		client.setActivity(activity)
 	} catch(e) {
