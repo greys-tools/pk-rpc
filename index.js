@@ -1,5 +1,5 @@
 const DiscordRPC = require('discord-rpc');
-const PKAPI = require('pkapi.js');
+const PKAPI = require('pkapi.js').default;
 
 // CHANGE THIS if setting up your own icons
 const clientId = '757707416719851651';
