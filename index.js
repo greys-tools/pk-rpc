@@ -4,6 +4,8 @@ const PKAPI = require('pkapi.js').default;
 // CHANGE THIS if setting up your own icons
 const clientId = '757707416719851651';
 
+const useDisplayName = true
+
 DiscordRPC.register(clientId);
 const client = new DiscordRPC.Client({transport: 'ipc'});
 
@@ -20,12 +22,17 @@ async function setFront() {
 		var front = await system.getFronters();
 		front.members = Array.from(front.members, ([k, v]) => v);
 
-        var members = front.members.map(m => m.display_name || m.name).join(", ");
-		if (members.length > 127) {
+        var members = front.members.map(m => {
+        	if(useDisplayName) return m.display_name
+        	else return m.name
+    	}).join(", ");
+
+		if (members.length > 127 && useDisplayName) {
 			members = front.members.map(m => m.name).join(", ");
-			if (members.length > 127) {
-				members = members.slice(0, 120) + "...";
-			}
+		}
+
+		if (members.length > 127) {
+			members = members.slice(0, 120) + "...";
 		}
 
 		var activity = {
@@ -55,7 +62,7 @@ async function setFront() {
 		}
 		// COMMENT BLOCK ENDS HERE- don't get rid of anything else!
 
-		client.setActivity(activity)
+		await client.setActivity(activity);
 	} catch(e) {
 		if(e.response) {
 			if(e.response.data == "Account not found.") {
