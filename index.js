@@ -9,7 +9,9 @@ const useDisplayName = true
 DiscordRPC.register(clientId);
 const client = new DiscordRPC.Client({transport: 'ipc'});
 
-const API = new PKAPI();
+const API = new PKAPI({
+	debug: false
+});
 
 var system;
 
@@ -20,6 +22,7 @@ async function setFront() {
 		}
 
 		var front = await system.getFronters();
+		if(!front) throw new Error("Can't get fronters")
 		front.members = Array.from(front.members, ([k, v]) => v);
 
         var members = front.members.map(m => {
@@ -64,23 +67,75 @@ async function setFront() {
 
 		await client.setActivity(activity);
 	} catch(e) {
-		if(e.response) {
-			if(e.response.data == "Account not found.") {
-				console.error("Account doesn't have a system registered.");
-			} else if(e.response.response == "Unauthorized to view fronter.") {
-				console.error("Account's front is set to private.");
-			} else if(e.response.response == "System has no registered switches.") {
-				console.error("Account has no registered switches.");
-			} else console.error(e.response.data);
-		} else console.error(e.message);
-		process.exit(1);
+		if(e.message) {
+			if(e.message == "System not found.") {
+				console.error(
+					"Couldn't get your system! Make sure you have a system " +
+					"registered on PluralKit before using this program."
+				);
+				process.exit(1);
+			} else if(e.message == "Can't get fronters") {
+				console.error(
+					"Couldn't get your current fronters! " +
+					"Make sure your switch history and fronters are public " +
+					"and that you have at least one registered switch before " +
+					"running this program."
+				);
+				process.exit(1);
+			} else console.error(e.message);
+		} else console.error(e);
+		// process.exit(1);
 	}
 }
 
 client.on('ready', ()=> {
 	setFront();
 
-	setInterval(()=> setFront(), 15000);
+	setInterval(()=> {
+		try {
+			setFront()
+		} catch(e) {
+			console.log(e.message);
+		}
+	}, 15000);
 })
 
-client.login({clientId}).catch(console.error).then(()=> console.log("RPC running!"));
+process.on('SIGINT', () => process.exit(0));
+process.on('SIGKILL', () => process.exit(0));
+
+var retrying = true;
+var retries = 0;
+
+async function connect() {
+	while(retrying && retries < 5) {
+		try {
+			await client.login({clientId})
+			console.log("RPC running!");
+			retries = 0;
+			retrying = false;
+		} catch(e) {
+			console.error(e.message);
+			if(e.message == "Could not connect") {
+				console.log("Couldn't connect to discord. Retrying in a few seconds...");
+				retrying = true;
+				retries += 1;
+				await sleep(15000)
+			}
+		}
+	}
+
+	if(retries >= 5) {
+		console.error(
+			"Failed connection to Discord 5 times; " +
+			"program is shutting down. Make sure Discord is running before trying again."
+		)
+	}
+}
+
+async function sleep(ms) {
+	return new Promise((res, rej) => {
+		setTimeout(() => res(), ms ?? 1000)
+	})
+}
+
+connect();
