@@ -26,7 +26,7 @@ async function setFront() {
 		front.members = Array.from(front.members, ([k, v]) => v);
 
         var members = front.members.map(m => {
-        	if(useDisplayName) return m.display_name
+        	if(useDisplayName) return m.display_name ?? m.name
         	else return m.name
     	}).join(", ");
 
