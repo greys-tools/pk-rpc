@@ -1,4 +1,5 @@
 @echo off
+cd /D "%~dp0"
 
 where node.exe >nul 2>nul
 if not %errorlevel%==0 (
