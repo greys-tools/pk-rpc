@@ -23,18 +23,18 @@ This program will get your currently fronting system member and show it in your 
 ## Adding avatars
 **Edits *may* be needed to make avatars work!** If your avatars are hosted on Discord, you'll need to edit the program to make them work. Here's what to do:
 1. Go to the [Discord developers website](https://discord.com/developers/applications) and create a new application. Name it whatever you'd like
-  - ![Guide image 1, showing the url and button to press to set up the application](https://cdn.greysdawn.com/6418.jpeg)
+  - ![Guide image 1, showing the url and button to press to set up the application](https://cdn.greysdawn.com/img/6418.jpeg)
 2. Navigate to your application (this should be done automatically, but if not, simply select it in the list of applications)
 3. In the sidebar, find the option for "Rich Presence." Clicking this should navigate to the assets page automatically, but if not, select that one
   - If you don't see the sidebar, you'll need to click the 3 bars in the top left of the page
-  - ![Guide image 2, showing the Rich Presence option](https://cdn.greysdawn.com/c665.jpeg)
-  - ![Guide image 3, showing the Art Assets option below the Rich Presence option](https://cdn.greysdawn.com/7208.jpeg)
+  - ![Guide image 2, showing the Rich Presence option](https://cdn.greysdawn.com/img/c665.jpeg)
+  - ![Guide image 3, showing the Art Assets option below the Rich Presence option](https://cdn.greysdawn.com/img/7208.jpeg)
 4. After the first section of the page, you should see a button to upload assets (NOT the invite image). You can use this to upload your members' icons
   - Keep in mind that you can only have up to 300 assets uploaded at once
   - You should rename the uploads to use your members' IDs, rather than name. This way they'll always be unique
   - If you'd like a system icon as well, upload an asset called "system"
-  - ![Guide image 4, showing the button to upload assets and underlining the 300 image limit](https://cdn.greysdawn.com/0268.jpeg)
-  - ![Guide image 5, showing a system member icon named with their ID along with a system icon named "system"](https://cdn.greysdawn.com/4daf.jpeg)
+  - ![Guide image 4, showing the button to upload assets and underlining the 300 image limit](https://cdn.greysdawn.com/img/0268.jpeg)
+  - ![Guide image 5, showing a system member icon named with their ID along with a system icon named "system"](https://cdn.greysdawn.com/img/4daf.jpeg)
 5. Make the following changes to the `index.js` file:
   - Change the client ID on line 5 to be your app's ID (found under the application sidebar: OAuth2 > "Client ID")
   - Delete the `/*` and `*/` on lines 38 and 43(/42 if you delete 38 first)
