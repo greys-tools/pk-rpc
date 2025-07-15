@@ -101,7 +101,6 @@ client.on('ready', ()=> {
 })
 
 process.on('SIGINT', () => process.exit(0));
-process.on('SIGKILL', () => process.exit(0));
 
 var retrying = true;
 var retries = 0;
