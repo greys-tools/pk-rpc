@@ -1,13 +1,13 @@
 import RPCClient from './modules/client';
 import { PKAPI, type System, type Member, type Switch } from 'pkapi.js';
 
-// CHANGE THIS if setting up your own icons
+// CLIENT ID - change this to use your own discord app client
 const clientId = '757707416719851651';
 
-const useDisplayName = true
+// USE DISPLAY NAME - change this to use base names instead of displaynames
+const useDisplayName = true;
 
 const client = new RPCClient();
-
 const API = new PKAPI({
 	debug: false
 });
@@ -24,11 +24,6 @@ function arraysEqual(a: any, b: any) {
   if (a == null || b == null) return false;
   if (a.length !== b.length) return false;
 
-  // If you don't care about the order of the elements inside
-  // the array, you should sort both arrays here.
-  // Please note that calling sort on an array will modify that array.
-  // you might want to clone your array first.
-
   for (var i = 0; i < a.length; ++i) {
     if (a[i] !== b[i]) return false;
   }
@@ -36,14 +31,24 @@ function arraysEqual(a: any, b: any) {
 }
 
 interface Activity {
+	type: number;
+	status_display_type: number;
 	details: string;
+	details_url?: string;
 	state: string;
+	state_url?: string;
 	startTimestamp: Date;
 	instance: boolean;
 	largeImageKey?: string;
 	largeImageText?: string;
 	smallImageKey?: string;
 	smallImageText?: string;
+	buttons?: Button[];
+}
+
+interface Button {
+	label: string;
+	url: string;
 }
 
 
@@ -51,6 +56,24 @@ async function setFront() {
 	try {
 		if(!system) {
 			system = await API.getSystem({system: client.user.id});
+		}
+
+		// BUTTONS - edit these if you want to change the buttons on the status
+		const buttons: Button[] = [
+			{
+				label: 'Profile',
+				url: `https://dash.pluralkit.me/s/${system.id}`
+			},
+			{
+				label: 'Fronters',
+				url: `https://pluralkit.xyz/f/${system.id}`
+			}
+		]
+
+		// URLS - edit these if you want to change what each part of the status links to
+		const URLS = {
+			details: `https://pluralkit.xyz/f/${system.id}`, // link on member names
+			state: `https://dash.pluralkit.me/s/${system.id}`, // link on system name
 		}
 
 		var front = await system.getFronters();
@@ -67,36 +90,29 @@ async function setFront() {
 		var mArr: Member[] = Array.from((front.members as Map<string, Member>).entries() || [], ([k, v]) => v);
 
 		var members: string = mArr.map((m: any) => {
-			if(useDisplayName) return m.display_name ?? m.name
-				else return m.name;
+			if(useDisplayName) return m.display_name ?? m.name;
+			else return m.name;
 		}).join(", ");
-
-		if (members.length > 127 && useDisplayName) {
-			members = mArr.map((m: any) => m.name).join(", ");
-		}
 
 		if (members.length > 127) {
 			members = members.slice(0, 120) + "...";
 		}
 
 		var activity: Activity = {
+			type: 3,
+			status_display_type: 3,
 			details: members || "(none)",
 			state: system.name || "---",
+			details_url: URLS.details,
+			state_url: URLS.state,
 			startTimestamp: new Date(front.timestamp),
-			instance: false,
-
-			// uncomment BELOW if setting up your own avatars
-			/*
-			largeImageKey: front.members[0]?.id,
-			largeImageText: front.members[0]?.display_name || front.members[0]?.name,
-			smallImageKey: "system",
-			smallImageText: system.name ?? "system"
-			*/
+			instance: true,
+			buttons,
 		}
 
-		// COMMENT OUT/REMOVE below if setting up your own avatars
+		// ASSETS - change these if you want to edit the images shown on the status
 		if(mArr[0]?.avatar_url) {
-			activity.largeImageKey = mArr[0].avatar_url.replace('cdn.discordapp.com', 'media.discordapp.net');
+			activity.largeImageKey = mArr[0].avatar_url;
 			activity.largeImageText = mArr[0]?.display_name || mArr[0]?.name;
 		}
 
@@ -104,7 +120,6 @@ async function setFront() {
 			activity.smallImageKey = system.avatar_url.replace('cdn.discordapp.com', 'media.discordapp.net');
 			activity.smallImageText = system.name || "system";
 		}
-		// COMMENT BLOCK ENDS HERE- don't get rid of anything else!
 
 		await client.setActivity(activity);
 	} catch(e: any) {
