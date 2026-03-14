@@ -126,7 +126,6 @@ async function setFront() {
 				process.exit(1);
 			}
 		}
-		// process.exit(1);
 	}
 }
 
@@ -150,7 +149,7 @@ var retries = 0;
 async function connect() {
 	while(retrying && retries < 5) {
 		try {
-			await client.login({ clientId })
+			await client.login({ clientId, reset: true })
 			console.log("RPC running!");
 			retries = 0;
 			retrying = false;
@@ -177,4 +176,4 @@ async function sleep(ms: number) {
 	})
 }
 
-connect();     
+connect();

@@ -31,8 +31,8 @@ class RPCClient extends EventEmitter {
     this.ipc.on('message', this.handleMessage.bind(this));
 	}
 
-	connect(clientId: string) {
-    if (this.connectPromise) {
+	connect(clientId: string, reset: boolean = false) {
+    if (this.connectPromise && !reset) {
       return this.connectPromise;
     }
     this.connectPromise = new Promise((resolve, reject) => {
@@ -56,8 +56,8 @@ class RPCClient extends EventEmitter {
   }
 
   async login(options: any = {}) {
-    let { clientId } = options;
-    await this.connect(clientId);
+    let { clientId, reset } = options;
+    await this.connect(clientId, reset);
     this.emit('ready');
     return this;
   }
