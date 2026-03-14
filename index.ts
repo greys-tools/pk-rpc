@@ -35,6 +35,17 @@ function arraysEqual(a: any, b: any) {
   return true;
 }
 
+interface Activity {
+	details: string;
+	state: string;
+	startTimestamp: Date;
+	instance: boolean;
+	largeImageKey?: string;
+	largeImageText?: string;
+	smallImageKey?: string;
+	smallImageText?: string;
+}
+
 
 async function setFront() {
 	try {
@@ -68,15 +79,11 @@ async function setFront() {
 			members = members.slice(0, 120) + "...";
 		}
 
-		var activity = {
+		var activity: Activity = {
 			details: members || "(none)",
 			state: system.name || "---",
 			startTimestamp: new Date(front.timestamp),
 			instance: false,
-			largeImageKey: '',
-			largeImageText: '',
-			smallImageKey: '',
-			smallImageText: '',
 
 			// uncomment BELOW if setting up your own avatars
 			/*
