@@ -26,6 +26,6 @@ If you want to build the new version as a single-file executable for ease of use
 Another caveat is that this program may not update immediately. It runs on a clock cycle that updates every few seconds, so if you switch and don't see immediate changes, please be patient.
 
 ## Support
-If you need help with this, feel free to DM us @/greysdawn on Discord or join our bot support server [here](https://discord.gg/EvDmXGt)
+If you need help with this, feel free to DM us `@.selenated` on Discord or join our projects server [here](https://discord.gg/3y228CvJyQ)
 
 If you'd like to support *us*, the devs, you can buy us a Ko-Fi [here](https://ko-fi.com/selenated) or consider becoming a Patron [here](https://patreon.com/selenated).
