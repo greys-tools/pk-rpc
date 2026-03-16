@@ -98,11 +98,14 @@ async function setFront() {
 			members = members.slice(0, 120) + "...";
 		}
 
+		let sname = system.name;
+		if(sname?.length! < 2) sname = `- ${sname} -`;
+
 		var activity: Activity = {
 			type: 3,
 			status_display_type: 3,
 			details: members || "(none)",
-			state: system.name || "---",
+			state: sname || "---",
 			details_url: URLS.details,
 			state_url: URLS.state,
 			startTimestamp: new Date(front.timestamp),
