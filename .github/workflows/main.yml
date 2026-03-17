@@ -1,0 +1,24 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+       - name: checkout
+         uses: actions/checkout@v5
+       - name: setup bun
+         uses: oven-sh/setup-bun@v2.2.0
+       - name: install deps
+         run: bun install
+       - name: build assets
+         run: bun run build:all
+       - name: release
+         uses: softprops/action-gh-release@v2
+         with:
+           body_path: RELEASE.md
+           files: out/*
